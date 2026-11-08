@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.clean.key219">
+
+    <application
+        android:label="Key 219 Trigger"
+        android:icon="@android:drawable/ic_lock_silent_mode_off"
+        android:allowBackup="false"
+        android:hasCode="true">
+
+        <!--
+          使用 Translucent.NoTitleBar 配合无动画透明主题：
+          1. 已授权时 onCreate 内毫秒级执行并 finishAndRemoveTask()，肉眼完全无感知
+          2. 首次打开未授权时，可正常承载 Shizuku 原生授权对话框（避免 Theme.NoDisplay 在 Android 12+ 弹窗崩溃）
+        -->
+        <activity
+            android:name=".TriggerActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:taskAffinity=""
+            android:launchMode="singleInstance"
+            android:stateNotNeeded="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Shizuku Binder 接收器 Provider -->
+        <provider
+            android:name="rikka.shizuku.ShizukuProvider"
+            android:authorities="${applicationId}.shizuku"
+            android:enabled="true"
+            android:exported="true"
+            android:multiprocess="false"
+            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
+
+    </application>
+
+</manifest>
